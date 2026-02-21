@@ -174,6 +174,24 @@ make regression-diff      # threshold-based image comparison report
 make regression-clean     # delete local regression artifacts
 ```
 
+## CI/CD
+
+GitHub Actions workflows are configured for:
+
+- CI on each commit push and pull request:
+  - Runs `uv sync --frozen`
+  - Runs `make test-stdlib`
+- Release on tag push:
+  - Runs `make templates-all`
+  - Publishes all generated `generated/templates/**/*.pdf` files as release assets
+
+Example release flow:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
 ## Local Visual Regression
 
 Use `scripts/local_visual_regression.py` (or the `make regression-*` targets) during refactors to
