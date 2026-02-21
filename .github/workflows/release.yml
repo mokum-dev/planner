@@ -33,10 +33,21 @@ jobs:
       - name: Generate template PDFs
         run: make templates-all
 
+      - name: Prepare release assets
+        run: |
+          set -eu
+          rm -rf release-assets
+          mkdir -p release-assets
+          find generated/templates -type f -name "*.pdf" | sort | while read -r file; do
+            rel_path="${file#generated/templates/}"
+            asset_name="$(printf "%s" "$rel_path" | tr '/' '_')"
+            cp "$file" "release-assets/$asset_name"
+          done
+
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
           fail_on_unmatched_files: true
           files: |
-            generated/templates/**/*.pdf
+            release-assets/*.pdf
