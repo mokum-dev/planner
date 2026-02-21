@@ -219,7 +219,9 @@ def compute_schedule_geometry(
     highlight_end = min(layout.schedule_end_hour, work_end_hour)
     highlight_rect: Rect | None = None
     if highlight_end >= highlight_start:
-        highlight_top = header_bottom - ((highlight_start - layout.schedule_start_hour) * row_height)
+        highlight_top = header_bottom - (
+            (highlight_start - layout.schedule_start_hour) * row_height
+        )
         highlight_height = ((highlight_end - highlight_start) + 1) * row_height
         highlight_rect = Rect(
             x=left,

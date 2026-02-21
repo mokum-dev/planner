@@ -39,6 +39,7 @@ TEMPLATE_RULE_WIDTH_MM = 0.16
 TEMPLATE_FINE_RULE_WIDTH_MM = 0.12
 TEMPLATE_DIVIDER_WIDTH_MM = 0.32
 
+
 def _apply_border_stroke(
     pdf: DrawingPrimitives,
     *,
@@ -370,7 +371,14 @@ def _draw_schedule_template(
         work_end_hour=SCHEDULE_TEMPLATE_WORK_END_HOUR,
     )
     _apply_border_stroke(pdf, device=device, theme=theme)
-    pdf.rect(geometry.body.x, geometry.body.y, geometry.body.width, geometry.body.height, fill=0, stroke=1)
+    pdf.rect(
+        geometry.body.x,
+        geometry.body.y,
+        geometry.body.width,
+        geometry.body.height,
+        fill=0,
+        stroke=1,
+    )
 
     if geometry.highlight_rect is not None:
         pdf.set_fill_color(theme.LINK_BADGE_BG)
@@ -640,8 +648,15 @@ def _draw_day_at_glance_compact_template(
     pdf.line(left, geometry.schedule_bottom, right, geometry.schedule_bottom)
 
     _apply_rule_stroke(pdf, device=device, theme=theme)
-    pdf.line(geometry.label_left, geometry.priorities_bottom, geometry.label_left, geometry.priorities_top)
-    pdf.line(geometry.label_left, geometry.schedule_bottom, geometry.label_left, geometry.schedule_top)
+    pdf.line(
+        geometry.label_left,
+        geometry.priorities_bottom,
+        geometry.label_left,
+        geometry.priorities_top,
+    )
+    pdf.line(
+        geometry.label_left, geometry.schedule_bottom, geometry.label_left, geometry.schedule_top
+    )
     pdf.line(geometry.label_left, geometry.notes_bottom, geometry.label_left, geometry.notes_top)
 
     def draw_vertical_section_label(
@@ -780,7 +795,14 @@ def _draw_checklist_template(
     )
 
     _apply_border_stroke(pdf, device=device, theme=theme)
-    pdf.rect(geometry.body.x, geometry.body.y, geometry.body.width, geometry.body.height, fill=0, stroke=1)
+    pdf.rect(
+        geometry.body.x,
+        geometry.body.y,
+        geometry.body.width,
+        geometry.body.height,
+        fill=0,
+        stroke=1,
+    )
     pdf.line(
         geometry.body.x + geometry.checkbox_col_width,
         geometry.body.y,

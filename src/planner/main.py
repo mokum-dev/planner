@@ -31,13 +31,13 @@ from .profiles import (
 from .rendering import render_page_block
 from .template_blocks import CallbackBlock
 from .template_engine import Rect, RenderContext, parse_param_pairs
-from .theme_profiles import available_theme_profiles, resolve_theme
 from .templates import (
     TEMPLATE_LAYOUT_PROFILES,
     generate_template,
     get_template_spec,
     list_template_specs,
 )
+from .theme_profiles import available_theme_profiles, resolve_theme
 
 WEEKDAY_LABELS = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
 
@@ -290,6 +290,7 @@ def generate_planner(
     _render_planner_page(pdf, profile=profile, theme=theme, draw_page=draw_cover_page)
 
     for month in range(1, 13):
+
         def draw_month_page(page_pdf: DrawingPrimitives, *, current_month: int = month) -> None:
             current_month_name = calendar.month_name[current_month]
             current_bookmark = month_bookmark(current_month)
@@ -343,6 +344,7 @@ def generate_planner(
         for week, week_plan in zip(matrix, week_plans, strict=True):
             segments = week_plan.segments
             for segment_idx, segment in enumerate(segments):
+
                 def draw_week_page(
                     page_pdf: DrawingPrimitives,
                     *,
@@ -353,6 +355,8 @@ def generate_planner(
                     current_segments: tuple[WeekSegmentPlan, ...] = segments,
                     current_segment_idx: int = segment_idx,
                     current_segment: WeekSegmentPlan = segment,
+                    current_week_plans: tuple[WeekPlan, ...] = week_plans,
+                    current_day_destinations: dict[int, str] = day_destinations,
                 ) -> None:
                     bookmark = current_segment.bookmark
                     page_pdf.bookmark_page(bookmark)
@@ -360,11 +364,17 @@ def generate_planner(
                     if current_segment_idx == 0:
                         outline_title = f"Week {current_week_plan.iso_week:02d}"
                     else:
-                        outline_title = f"Week {current_week_plan.iso_week:02d} ({current_segment.label})"
+                        outline_title = (
+                            f"Week {current_week_plan.iso_week:02d} ({current_segment.label})"
+                        )
                     page_pdf.add_outline_entry(outline_title, bookmark, level=1)
 
-                    draw_sidebar(page_pdf, active_month_idx=current_month, profile=profile, theme=theme)
-                    subtitle_suffix = f"{current_segment.label} | " if len(current_segments) > 1 else ""
+                    draw_sidebar(
+                        page_pdf, active_month_idx=current_month, profile=profile, theme=theme
+                    )
+                    subtitle_suffix = (
+                        f"{current_segment.label} | " if len(current_segments) > 1 else ""
+                    )
                     draw_header(
                         page_pdf,
                         title=current_month_name.upper(),
@@ -390,24 +400,37 @@ def generate_planner(
 
                     week_links: list[tuple[str, str]] = []
                     if current_segment_idx > 0:
-                        week_links.append(("PREV PART", current_segments[current_segment_idx - 1].bookmark))
+                        week_links.append(
+                            ("PREV PART", current_segments[current_segment_idx - 1].bookmark)
+                        )
                     elif current_week_plan.week_idx > 1:
-                        prev_week_segments = week_plans[current_week_plan.week_idx - 2].segments
+                        prev_week_segments = current_week_plans[
+                            current_week_plan.week_idx - 2
+                        ].segments
                         week_links.append(("PREV WEEK", prev_week_segments[-1].bookmark))
 
                     if current_segment_idx < len(current_segments) - 1:
-                        week_links.append(("NEXT PART", current_segments[current_segment_idx + 1].bookmark))
-                    elif current_week_plan.week_idx < len(week_plans):
-                        next_week_segments = week_plans[current_week_plan.week_idx].segments
+                        week_links.append(
+                            ("NEXT PART", current_segments[current_segment_idx + 1].bookmark)
+                        )
+                    elif current_week_plan.week_idx < len(current_week_plans):
+                        next_week_segments = current_week_plans[current_week_plan.week_idx].segments
                         week_links.append(("NEXT WEEK", next_week_segments[0].bookmark))
 
                     first_day_in_segment = next(
-                        (current_week[idx] for idx in current_segment.day_indexes if current_week[idx]),
+                        (
+                            current_week[idx]
+                            for idx in current_segment.day_indexes
+                            if current_week[idx]
+                        ),
                         None,
                     )
                     if first_day_in_segment is not None:
                         week_links.append(
-                            ("FIRST DAY", day_bookmark(date(year, current_month, first_day_in_segment)))
+                            (
+                                "FIRST DAY",
+                                day_bookmark(date(year, current_month, first_day_in_segment)),
+                            )
                         )
 
                     draw_link_row(
@@ -421,7 +444,7 @@ def generate_planner(
                     draw_week_grid(
                         page_pdf,
                         week=current_week,
-                        day_destinations=day_destinations,
+                        day_destinations=current_day_destinations,
                         day_indexes=current_segment.day_indexes,
                         profile=profile,
                         theme=theme,
@@ -448,7 +471,9 @@ def generate_planner(
         ) -> None:
             page_pdf.bookmark_page(current_bookmark)
 
-            draw_sidebar(page_pdf, active_month_idx=current_page_date.month, profile=profile, theme=theme)
+            draw_sidebar(
+                page_pdf, active_month_idx=current_page_date.month, profile=profile, theme=theme
+            )
             draw_header(
                 page_pdf,
                 title=current_weekday_name.upper(),
@@ -627,7 +652,9 @@ def _run_templates_cli(argv: list[str]) -> int:
             for param in spec.params:
                 suffix_parts: list[str] = []
                 if param.choices:
-                    suffix_parts.append(f"choices={','.join(str(choice) for choice in param.choices)}")
+                    suffix_parts.append(
+                        f"choices={','.join(str(choice) for choice in param.choices)}"
+                    )
                 if param.min_value is not None:
                     suffix_parts.append(f"min={param.min_value}")
                 if param.max_value is not None:

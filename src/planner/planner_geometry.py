@@ -347,8 +347,10 @@ def daily_priorities_row_bounds(geometry: DailyViewGeometry, item_idx: int) -> R
     if not 0 <= item_idx < geometry.checklist_items:
         msg = f"item_idx must be between 0 and {geometry.checklist_items - 1}."
         raise ValueError(msg)
-    row_top = geometry.priorities_y + geometry.priorities_height - (
-        item_idx * geometry.checklist_item_height
+    row_top = (
+        geometry.priorities_y
+        + geometry.priorities_height
+        - (item_idx * geometry.checklist_item_height)
     )
     row_bottom = row_top - geometry.checklist_item_height
     return RowBounds(

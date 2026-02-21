@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import sys
 from collections.abc import Mapping, Sequence
 from pathlib import Path
-import sys
 
 from .config import DEFAULT_TEMPLATE_FILENAME_TEMPLATE, Theme
 from .drawing import create_reportlab_primitives

@@ -18,12 +18,14 @@ from planner.templates import (
     NOTES_FILL_TYPES,
     TEMPLATE_TYPES,
     available_template_types,
+    font_pt_to_device_units,
     generate_template,
     get_template_spec,
     list_template_specs,
+    mm_to_device_units,
+    pt_to_device_units,
     resolve_template_layout,
 )
-from planner.templates import font_pt_to_device_units, mm_to_device_units, pt_to_device_units
 
 _PDF_PAGE_PATTERN = re.compile(rb"/Type\s*/Page\b")
 

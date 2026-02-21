@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import importlib
 import importlib.metadata
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from types import ModuleType
-from typing import Any, Callable
+from typing import Any
 
 from .registry import TemplateRegistry
 
@@ -82,4 +82,3 @@ def load_template_plugins(
             warnings.append(warning)
 
     return tuple(warnings)
-

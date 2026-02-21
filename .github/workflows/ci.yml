@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   test:
-    name: Test Suite
+    name: Lint And Test Suite
     runs-on: ubuntu-latest
 
     steps:
@@ -30,6 +30,12 @@ jobs:
 
       - name: Sync dependencies
         run: uv sync --frozen
+
+      - name: Install development tools
+        run: make dev-tools
+
+      - name: Run lint checks
+        run: make lint
 
       - name: Run stdlib tests
         run: make test-stdlib

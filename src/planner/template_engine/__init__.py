@@ -17,4 +17,3 @@ __all__ = [
     "parse_param_pairs",
     "resolve_template_params",
 ]
-

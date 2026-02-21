@@ -67,7 +67,9 @@ class WeekGeometryTests(unittest.TestCase):
 
         self.assertTrue(line_positions)
         self.assertGreaterEqual(min(line_positions), column.y + geometry.writing_line_bottom_margin)
-        self.assertLessEqual(max(line_positions), geometry.start_y - geometry.writing_line_top_offset)
+        self.assertLessEqual(
+            max(line_positions), geometry.start_y - geometry.writing_line_top_offset
+        )
 
 
 class DailyGeometryTests(unittest.TestCase):

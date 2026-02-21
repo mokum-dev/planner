@@ -55,4 +55,6 @@ class PageBackgroundBlock:
 
     def render(self, ctx: RenderContext, rect: Rect) -> None:  # noqa: ARG002 - full-page fill by design
         ctx.pdf.set_fill_color(self.color)
-        ctx.pdf.rect(0, 0, ctx.device_profile.page_width, ctx.device_profile.page_height, fill=1, stroke=0)
+        ctx.pdf.rect(
+            0, 0, ctx.device_profile.page_width, ctx.device_profile.page_height, fill=1, stroke=0
+        )

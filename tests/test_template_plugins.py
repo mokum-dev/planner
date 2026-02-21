@@ -64,4 +64,3 @@ def register_templates(registry):
             finally:
                 sys.path.remove(str(plugin_dir))
                 sys.modules.pop("bad_plugin", None)
-

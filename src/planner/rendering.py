@@ -20,7 +20,9 @@ def _pt_to_units(value_pt: float, *, device_profile: DeviceProfile) -> float:
 
 
 def _font_pt_to_units(value_pt: float, *, device_profile: DeviceProfile) -> float:
-    return _pt_to_units(value_pt * device_profile.template_font_scale, device_profile=device_profile)
+    return _pt_to_units(
+        value_pt * device_profile.template_font_scale, device_profile=device_profile
+    )
 
 
 def render_page_block(
@@ -40,7 +42,9 @@ def render_page_block(
         theme=theme,
         mm_to_units=lambda value_mm: _mm_to_units(value_mm, device_profile=device_profile),
         pt_to_units=lambda value_pt: _pt_to_units(value_pt, device_profile=device_profile),
-        font_pt_to_units=lambda value_pt: _font_pt_to_units(value_pt, device_profile=device_profile),
+        font_pt_to_units=lambda value_pt: _font_pt_to_units(
+            value_pt, device_profile=device_profile
+        ),
         extras=dict(extras or {}),
     )
     page_rect = Rect(

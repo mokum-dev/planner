@@ -202,8 +202,7 @@ def resolve_render_profile(
     layout_name = layout or DEFAULT_LAYOUT_BY_DEVICE[device]
     if layout_name not in LAYOUT_PROFILES:
         msg = (
-            f"unknown layout '{layout_name}'. Valid layouts: "
-            f"{', '.join(sorted(LAYOUT_PROFILES))}."
+            f"unknown layout '{layout_name}'. Valid layouts: {', '.join(sorted(LAYOUT_PROFILES))}."
         )
         raise ValueError(msg)
 
@@ -292,8 +291,7 @@ def evaluate_render_profile_fit(profile: RenderProfile) -> tuple[str, ...]:
                 f"< {device.safe_tap_min}"
             )
     elif (
-        profile.layout.daily.show_priorities
-        and daily_total_width < device.min_daily_section_width
+        profile.layout.daily.show_priorities and daily_total_width < device.min_daily_section_width
     ):
         issues.append(
             f"daily priorities section width {daily_total_width:.1f} "

@@ -319,7 +319,9 @@ def draw_week_grid(
         if not day_num:
             pdf.set_fill_color(theme.TEXT_SECONDARY)
             pdf.set_font(theme.FONT_REGULAR, 18)
-            pdf.draw_centred_string(column.x + (column.width / 2), column.y + (column.height / 2), "-")
+            pdf.draw_centred_string(
+                column.x + (column.width / 2), column.y + (column.height / 2), "-"
+            )
             continue
 
         label = week_day_label_rect(geometry, column=column)
@@ -373,7 +375,9 @@ def draw_daily_view(
 
         pdf.set_fill_color(theme.TEXT_SECONDARY)
         pdf.set_font(theme.FONT_REGULAR, 12)
-        pdf.draw_right_string(geometry.start_x + geometry.total_width, notes_title_y, page_date.isoformat())
+        pdf.draw_right_string(
+            geometry.start_x + geometry.total_width, notes_title_y, page_date.isoformat()
+        )
 
         pdf.set_stroke_color(theme.GRID_LINES)
         pdf.set_line_width(1)

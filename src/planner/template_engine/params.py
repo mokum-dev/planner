@@ -89,13 +89,21 @@ def _coerce_value(param: TemplateParamSpec, raw_value: Any, *, template_id: str)
         )
         raise ValueError(msg)
 
-    if param.min_value is not None and isinstance(coerced, (int, float)) and coerced < param.min_value:
+    if (
+        param.min_value is not None
+        and isinstance(coerced, (int, float))
+        and coerced < param.min_value
+    ):
         msg = (
             f"invalid value '{coerced}' for '{key}' in template '{template_id}'. "
             f"Minimum allowed value is {param.min_value}."
         )
         raise ValueError(msg)
-    if param.max_value is not None and isinstance(coerced, (int, float)) and coerced > param.max_value:
+    if (
+        param.max_value is not None
+        and isinstance(coerced, (int, float))
+        and coerced > param.max_value
+    ):
         msg = (
             f"invalid value '{coerced}' for '{key}' in template '{template_id}'. "
             f"Maximum allowed value is {param.max_value}."
@@ -137,7 +145,10 @@ def resolve_template_params(
 
     missing = sorted(key for key in required if key not in resolved)
     if missing:
-        msg = f"missing required parameter(s) for template '{spec.template_id}': {', '.join(missing)}."
+        msg = (
+            f"missing required parameter(s) for template "
+            f"'{spec.template_id}': {', '.join(missing)}."
+        )
         raise ValueError(msg)
 
     return resolved

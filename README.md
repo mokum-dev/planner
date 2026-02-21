@@ -180,6 +180,8 @@ GitHub Actions workflows are configured for:
 
 - CI on each commit push and pull request:
   - Runs `uv sync --frozen`
+  - Runs `make dev-tools`
+  - Runs `make lint`
   - Runs `make test-stdlib`
 - Release on tag push:
   - Runs `make templates-all`
